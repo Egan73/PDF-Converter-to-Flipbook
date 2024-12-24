@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://kit.fontawesome.com/1018f427b5.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f8fa;
+        }
+
+        .login-container {
+            display: flex;
+            background-color: white;
+            width: 100%;
+            height: 100vh;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: none;
+        }
+
+        .login-left {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #logo {
+            width: 80px;
+            height: 65px;
+        }
+
+        .login-right {
+            flex: 1;
+            background: linear-gradient(90deg, #4f3de4, #ab52d5);
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 30px;
+        }
+
+        .login-right img {
+            width: 80%;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .social-login {
+            margin: 15px 0;
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-login button {
+            width: 150px;
+            height: 40px;
+            border-radius: 5px;
+            border: black;
+            font-size: 1em;
+            color: black;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-login button img {
+            width: 20px;
+        }
+
+        .input-group {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .input-group input {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border: 1px solid #4f3de4;
+        }
+
+        button {
+            background-color: #4f3de4;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .forgot-password {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #4f3de4;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <img id="logo" src="logo.png">
+            <h1>Welcome back!</h1>
+            <div>Sign in with:</div>
+            <form id="loginForm" action="/login" method="POST">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Log In</button>
+            </form>
+            <div class="forgot-password">
+                <a href="signup.html">Create an Account</a>
+            </div>
+        </div>
+        <div class="login-right">
+            <img src="illustration.png" alt="Illustration">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var form = event.target;
+            var formData = new FormData(form);
+
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });
+                }
+                return response.text();
+            })
+            .then(result => {
+                if (result === 'Login successful!') {
+                    window.location.href = '/index.html'; // Redirect to home page
+                } else {
+                    alert(result); // Show error message
+                }
+            })
+            .catch(error => {
+                alert('An unexpected error occurred: ' + error.message);
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

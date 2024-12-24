@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+    <script src="https://kit.fontawesome.com/1018f427b5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <img class="Logo" src="Logo.png" alt="Logo">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="history.html">History</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Upload History</h1>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by file name...">
+        </div>
+
+        <!-- Upload history will be dynamically generated here -->
+        <div id="history-list" class="upload-history"></div>
+
+        <!-- Pagination Buttons -->
+        <div class="pagination" id="pagination-buttons"></div>
+    </div>
+
+      <!-- Flipbook Preview Modal -->
+      <div id="flipbook-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFlipbook()">&times;</span>
+            <h2>Flipbook Preview</h2>
+            <iframe id="flipbook-viewer" src="" width="100%" height="400"></iframe>
+        </div>
+    </div>
+ 
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit File Name</h2>
+            <input type="text" id="editFilenameInput" placeholder="Enter new filename">
+            <div class="modal-buttons">
+                <button id="saveEditBtn">Save</button>
+                <button id="cancelEditBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this file?</p>
+            <div class="modal-buttons">
+                <button id="confirmDeleteBtn">Yes, Delete</button>
+                <button id="cancelDeleteBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embed Code Modal -->
+<div id="embedModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Embed Flipbook</h2>
+        <textarea id="embedCodeTextarea" readonly></textarea>
+        <div class="modal-buttons">
+            <button id="copyEmbedBtn">Copy</button>
+            <button id="closeEmbedBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+    
+
+    
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">
+            <img class="logofoot" src="logo1.png" alt="Footer Logo">
+            <p>Graha Pena Bogor</p>
+            <p>Jl. KH. R. Abdullah Bin Muhammad Nuh No. 30</p>
+            <p>Taman Yasmin, Bogor 16113</p><br>
+            <p><i class="fa-solid fa-phone"></i> 0251-7544001</p>
+            <p><i class="fa-solid fa-envelope"></i> redaksi [at] radar-bogor.com</p>
+        </div>
+    </div>
+    <div class="map">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1983.4381766348482!2d106.80672916935566!3d-6.601309097031682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5c6b393b953%3A0x5027a76e356d0!2sOffice%20of%20the%20Mayor%20of%20Bogor!5e0!3m2!1sen!2sid!4v1691614894664!5m2!1sen!2sid" 
+            width="400" 
+            height="250" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+    <div class="footer-bottom">
+        <p><a href="#">Tentang Kami</a> | <a href="#">Redaksi</a> | <a href="#">Info Iklan</a> | <a href="#">Karir</a> | <a href="#">Kontak</a> | <a href="#">Pedoman Media Siber</a> | <a href="#">Privacy</a></p><br>
+        <p>&copy;2024</p>
+    </div>
+</footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    let currentFileId = null;
+    let currentFilename = null;
+
+    // Elements for the edit modal
+    const editModal = document.getElementById('editModal');
+    const editFilenameInput = document.getElementById('editFilenameInput');
+    const saveEditBtn = document.getElementById('saveEditBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const closeEditBtn = document.querySelector('.close');
+
+    // Elements for the delete modal
+    const deleteModal = document.getElementById('deleteModal');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+
+    const itemsPerPage = 12; // Number of cards per page
+    let currentPage = 1; // Current page
+    let totalPages = 0; // Total pages
+    let historyData = []; // Store all history data
+
+    // Fetch upload history and populate the page
+    fetch('/history')
+        .then(response => response.json())
+        .then(data => {
+            historyData = data; // Store the fetched data
+            totalPages = Math.ceil(historyData.length / itemsPerPage); // Calculate total pages
+            renderPage(currentPage); // Render the first page
+            createPagination(); // Create pagination buttons
+        })
+        .catch(error => console.error('Error fetching history:', error));
+
+    // Function to render the current page
+    function renderPage(page) {
+        const historyList = document.getElementById('history-list');
+        historyList.innerHTML = ''; // Clear previous content
+
+        const start = (page - 1) * itemsPerPage; // Calculate start index
+        const end = Math.min(start + itemsPerPage, historyData.length); // Calculate end index
+
+        // Render files for the current page
+        for (let i = start; i < end; i++) {
+            const file = historyData[i];
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const uploadDate = new Date(file.upload_date).toLocaleString();
+
+            card.innerHTML = `
+                <img class="thumbnail" src="/uploads/${file.filename.replace('.pdf', '.png')}" alt="Thumbnail" onerror="this.onerror=null;this.src='/uploads/default-thumbnail.png';">
+                <div class="card-body">
+                    <h4>${file.filename.replace('.pdf', '')}</h4>
+                    <p>Uploaded on: ${uploadDate}</p>
+                    <button class="view-btn" onclick="viewFlipbook('${file.filepath}')">View Flipbook</button>
+                    <button class="edit-btn" onclick="editFile('${file.id}', '${file.filename.replace('.pdf', '')}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteFile('${file.id}')">Delete</button>
+                    <button class="embed-btn" onclick="embedFlipbook('${file.filepath}')">Embed</button>
+                </div>
+            `;
+            historyList.appendChild(card); // Append each card
+        }
+    }
+
+
+    // Function to create pagination buttons with the new logic
+    function createPagination() {
+        const paginationButtons = document.getElementById('pagination-buttons');
+        paginationButtons.innerHTML = ''; // Clear previous pagination
+
+        // Show first 5 pages or less if total pages is less than 5
+        const maxVisiblePages = Math.min(totalPages, 5);
+
+        for (let i = 1; i <= maxVisiblePages; i++) {
+            const button = document.createElement('button');
+            button.innerText = i;
+            button.disabled = i === currentPage; // Disable button if it's the current page
+            button.addEventListener('click', () => {
+                currentPage = i; // Update current page
+                renderPage(currentPage); // Render the new page
+                createPagination(); // Recreate pagination
+            });
+            paginationButtons.appendChild(button); // Append button to pagination
+        }
+
+        // Show ellipsis if there are more pages
+        if (totalPages > 5) {
+            const ellipsis = document.createElement('span');
+            ellipsis.innerText = '...';
+            paginationButtons.appendChild(ellipsis); // Add ellipsis
+
+            // Add the last page button
+            const lastButton = document.createElement('button');
+            lastButton.innerText = totalPages;
+            lastButton.addEventListener('click', () => {
+                currentPage = totalPages; // Update current page to last
+                renderPage(currentPage); // Render the last page
+                createPagination(); // Recreate pagination
+            });
+            paginationButtons.appendChild(lastButton); // Append last page button
+        }
+    }
+
+    // Search function to filter files by name
+    document.getElementById('search-input').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredData = historyData.filter(file => file.filename.toLowerCase().includes(searchTerm));
+        
+        // Render the filtered results
+        renderFilteredHistory(filteredData);
+    });
+
+    function renderFilteredHistory(filteredData) {
+        const historyList = document.getElementById('history-list');
+        historyList.innerHTML = ''; // Clear previous content
+
+        if (filteredData.length === 0) {
+            historyList.innerHTML = '<p>No matching files found.</p>';
+            return;
+        }
+
+        filteredData.forEach(file => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            const uploadDate = new Date(file.upload_date).toLocaleString();
+
+            card.innerHTML = `
+                <img class="thumbnail" src="/uploads/${file.filename.replace('.pdf', '.png')}" alt="Thumbnail" onerror="this.onerror=null;this.src='/uploads/default-thumbnail.png';">
+                <div class="card-body">
+                    <h4>${file.filename.replace('.pdf', '')}</h4>
+                    <p>Uploaded on: ${uploadDate}</p>
+                    <button class="view-btn" onclick="viewFlipbook('${file.filepath}')">View Flipbook</button>
+                    <button class="edit-btn" onclick="editFile('${file.id}', '${file.filename.replace('.pdf', '')}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteFile('${file.id}')">Delete</button>
+                    <button class="embed-btn" onclick="embedFlipbook('${file.filepath}')">Embed</button>
+                </div>
+            `;
+            historyList.appendChild(card);
+        });
+    }
+
+
+// Function to view the flipbook in a modal
+window.viewFlipbook = function(filepath) {
+    const flipbookModal = document.getElementById('flipbook-modal');
+    const flipbookViewer = document.getElementById('flipbook-viewer');
+
+    // Set the iframe's source to the flipbook file path
+    flipbookViewer.src = filepath;
+
+    // Display the flipbook modal
+    flipbookModal.style.display = 'block';
+};
+
+// Function to close the flipbook modal
+window.closeFlipbook = function() {
+    const flipbookModal = document.getElementById('flipbook-modal');
+    const flipbookViewer = document.getElementById('flipbook-viewer');
+
+    // Clear the iframe source to stop the flipbook when closed
+    flipbookViewer.src = '';
+
+    // Hide the modal
+    flipbookModal.style.display = 'none';
+};
+
+// Close modal if clicking outside of it
+window.onclick = function(event) {
+    const flipbookModal = document.getElementById('flipbook-modal');
+    if (event.target === flipbookModal) {
+        flipbookModal.style.display = 'none';
+    }
+};
+
+
+    // Existing functions for editing, deleting, and modals remain unchanged
+
+  
+// Function to embed the flipbook
+window.embedFlipbook = function(filepath) {
+    const embedModal = document.getElementById('embedModal');
+    const embedCodeTextarea = document.getElementById('embedCodeTextarea');
+    const embedCode = `<iframe src="${filepath}" width="600" height="400"></iframe>`;
+
+    // Set the embed code in the textarea
+    embedCodeTextarea.value = embedCode;
+
+    // Show the embed modal
+    embedModal.style.display = 'block';
+};
+
+// Close the embed modal
+document.querySelector('#embedModal .close').onclick = function() {
+    document.getElementById('embedModal').style.display = 'none';
+};
+
+// Close the embed modal when clicking the close button
+document.getElementById('closeEmbedBtn').onclick = function() {
+    document.getElementById('embedModal').style.display = 'none';
+};
+
+// Copy the embed code to the clipboard
+document.getElementById('copyEmbedBtn').onclick = function() {
+    const embedCodeTextarea = document.getElementById('embedCodeTextarea');
+    embedCodeTextarea.select();
+    document.execCommand('copy');
+    alert('Embed code copied to clipboard!');
+};
+
+// Close modal if clicking outside of it
+window.onclick = function(event) {
+    const embedModal = document.getElementById('embedModal');
+    if (event.target === embedModal) {
+        embedModal.style.display = 'none';
+    }
+};
+
+
+    // Open the edit modal with the current filename
+    window.editFile = function(fileId, filename) {
+        currentFileId = fileId;
+        currentFilename = filename;
+        editFilenameInput.value = filename;
+        editModal.style.display = 'block';
+    }
+
+    // Save the edited filename
+    saveEditBtn.addEventListener('click', () => {
+        const newFilename = editFilenameInput.value;
+        if (newFilename && newFilename !== currentFilename) {
+            fetch(`/edit-file/${currentFileId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ newFilename })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('File renamed successfully!');
+                    location.reload(); // Reload the page to reflect changes
+                } else {
+                    alert('Error renaming file.');
+                }
+            })
+            .catch(error => console.error('Error renaming file:', error));
+        }
+        editModal.style.display = 'none'; // Close modal
+    });
+
+    // Cancel editing
+    cancelEditBtn.addEventListener('click', () => {
+        editModal.style.display = 'none';
+    });
+
+    // Close the modal when clicking on (x)
+    closeEditBtn.addEventListener('click', () => {
+        editModal.style.display = 'none';
+    });
+
+    // Delete function with confirmation modal
+    window.deleteFile = function(fileId) {
+        currentFileId = fileId;
+        deleteModal.style.display = 'block';
+    }
+
+    // Confirm delete action
+    confirmDeleteBtn.addEventListener('click', () => {
+        fetch(`/delete-file/${currentFileId}`, { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('File deleted successfully!');
+                location.reload(); // Reload the page to reflect changes
+            } else {
+                alert('Error deleting file.');
+            }
+        })
+        .catch(error => console.error('Error deleting file:', error));
+
+        deleteModal.style.display = 'none'; // Close modal
+    });
+
+    // Cancel delete action
+    cancelDeleteBtn.addEventListener('click', () => {
+        deleteModal.style.display = 'none';
+    });
+});
+
+    </script>
+</body>
+</html>

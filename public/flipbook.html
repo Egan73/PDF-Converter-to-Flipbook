@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipbook Viewer</title>
+    <style>
+        #flipbookContainer {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .flipbook {
+            width: 800px;
+            height: 600px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="flipbookContainer">
+        <div id="flipbook"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+    <script>
+    // Flipbook functionality using PDF.js or other flipbook libraries
+    const filename = new URLSearchParams(window.location.search).get('file');
+    
+    const flipbookContainer = document.getElementById('flipbook');
+    const url = `/uploads/${filename}`;  // Assuming your uploads are stored in `/uploads/`
+
+    pdfjsLib.getDocument(url).promise.then(pdfDoc => {
+        // Render the first two pages side by side
+        pdfDoc.getPage(1).then(page1 => {
+            pdfDoc.getPage(2).then(page2 => {
+                renderTwoPages(page1, page2);
+            });
+        });
+    });
+
+    function renderTwoPages(page1, page2) {
+        const canvas1 = document.createElement('canvas');
+        const canvas2 = document.createElement('canvas');
+        flipbookContainer.appendChild(canvas1);
+        flipbookContainer.appendChild(canvas2);
+
+        const scale = 1.5;
+        const viewport1 = page1.getViewport({ scale });
+        const viewport2 = page2.getViewport({ scale });
+
+        const context1 = canvas1.getContext('2d');
+        const context2 = canvas2.getContext('2d');
+
+        canvas1.height = viewport1.height;
+        canvas1.width = viewport1.width;
+
+        canvas2.height = viewport2.height;
+        canvas2.width = viewport2.width;
+
+        page1.render({ canvasContext: context1, viewport: viewport1 });
+        page2.render({ canvasContext: context2, viewport: viewport2 });
+    }
+    </script>
+</body>
+</html>

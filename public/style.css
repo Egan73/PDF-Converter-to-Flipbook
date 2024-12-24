@@ -1,0 +1,835 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.228);
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: rgb(255, 255, 255);
+    padding: 0 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1000;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.Logo {
+    width: 70px;
+    height: 60px;
+    margin-left: 50px;
+}
+
+.form1{
+    background: #fff;
+    width: 600px;
+    height: 45px;
+    margin-bottom: 30px;
+
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    background: #fff;
+    width: 600px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 30px 0 0 30px;
+}
+
+form button {
+    background: #4f3de4;
+    padding: 15px 20px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 0 30px 30px 0;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #535251;
+}
+
+form .fa-solid {
+    font-size: 20px;
+    color: #646464;
+    margin-left: 20px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 300;
+    padding: 10px;
+    white-space: nowrap; /* Prevents text from wrapping */
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #fff;
+    background-color: #4f3de4; /* Dark blue background */
+    border-radius: 7px; /* Rounded rectangle */
+}
+
+nav ul li a.login, 
+nav ul li a.signup {
+    border: 1px solid #4f3de4;
+    border-radius: 5px;
+    padding: 8px 20px;
+    white-space: nowrap; /* Prevents text wrapping on these buttons */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a.login:hover, 
+nav ul li a.signup:hover {
+    background-color: #4f3de4; /* Dark blue on hover */
+    color: #fff; /* White text on hover */
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 0;
+    position: relative; /* Ensure the hero section is positioned */
+}
+
+.background {
+    margin-top: -200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1; /* Put the background behind the other content */
+    object-fit: cover; /* Ensures the image covers the entire area */
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 800px;
+    position: relative; /* Ensure that the container's content stays in the right place */
+    z-index: 1; /* Keep the content above the background */
+}
+
+.logohero {
+    height: 60px;
+    margin-top: 10px;
+    z-index: 2; /* Ensure the logo is above everything */
+}
+
+
+.upload-box {
+    width: 700px;
+    background-color: #9696966b;
+    border: 3px dashed rgb(2, 45, 115);
+    padding: 40px;
+    display: inline-block;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.upload-box i {
+    font-size: 80px;
+    color: #000000;
+}
+
+.upload-box p {
+    margin: 10px 0;
+}
+
+.custom-upload-btn {
+    background: rgb(2, 45, 115);
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.custom-upload-btn:hover {
+    background: #535251;
+}
+
+
+.custom-upload-btn {
+    background: #4f3de4;
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.custom-upload-btn:hover {
+    background: #535251;
+}
+
+
+#upload-btn {
+    background: #4f3de4;
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#upload-btn:hover{
+    background: #535251;
+}
+
+#loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    z-index: 1000;
+}
+
+.spinner {
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.flipbook-page {
+    display: inline-block;
+    justify-content: center;
+    padding: 0;
+}
+
+#flipbook-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 200px;
+    margin-left: -100px;
+    perspective: 1000px;  /* Creates the 3D effect for flipping */
+}
+
+/* Common styles for both left and right canvases */
+.pdf-canvas {
+    width: 80%;
+    height: auto;
+    transition: transform 1s;
+    transform-origin: left center; /* Adjust the flip origin */
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure no space between canvases */
+canvas {
+    width: 400px;
+    border: 1px solid #000;
+    box-shadow: #535251;
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: relative;
+}
+
+/* Remove gap between pages */
+#pdf-render-left {
+    transform-origin: right center;  /* Ensure it flips from the right edge */
+}
+
+#pdf-render-right {
+    transform-origin: left center;   /* Ensure it flips from the left edge */
+}
+
+/* Flip the right page (right to left, flipping backward) */
+.flip-left {
+    transform-origin: left center;
+    animation: flipLeft 2.5s forwards;
+}
+
+@keyframes flipLeft {
+    0% {
+        transform: rotateY(0deg);  /* Starting position */
+    }
+    100% {
+        transform: rotateY(-180deg);  /* Complete flip */
+    }
+}
+
+
+
+.flip-left-to-right-front {
+    transform-origin: right center;
+    animation: flipLeftToRightFront 2.5s forwards;
+    z-index: 2;  /* Bring left page above right page during flip */
+}
+
+@keyframes flipLeftToRightFront {
+    0% {
+        transform: rotateY(0deg);  /* Start at normal position */
+    }
+    100% {
+        transform: rotateY(180deg);  /* Complete flip to cover the right page */
+    }
+}
+
+
+
+#embed-form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+#embed-form h3 {
+    margin-bottom: 10px;
+}
+
+#get-embed-code-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#get-embed-code-btn:hover {
+    background-color: #0056b3;
+}
+
+
+#prev-page {
+    margin-top: 20px;
+    margin-left: -20px;
+    background: rgb(2, 45, 115);
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#prev-page:hover {
+    background: #535251;
+}
+
+#next-page {
+    margin-top: 20px;
+    background: rgb(2, 45, 115);
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#next-page:hover {
+    background: #535251;
+}
+
+#flipbook-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+.flipbook-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px; /* Space between the two buttons */
+}
+
+.button-container {
+    text-align: center;
+}
+
+.flipbook-btn, .embed-btn1 {
+    padding: 20px 30px;
+    width: 200px;
+    height: 100px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.flipbook-btn {
+    background-color: rgba(0, 69, 179, 0.235);
+    color: rgb(0, 0, 0);
+    border-style: solid;
+    border-color: #32323292;
+}
+
+.embed-btn1 {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-style: solid;
+    border-color: #32323292;
+}
+
+.embed-btn1:hover {
+    background-color: rgba(0, 69, 179, 0.235);
+}
+
+
+.button-container p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+    
+
+/* Footer */
+footer {
+    width: 100%;
+    margin-top: 350px;
+    background-color: rgba(223, 223, 223, 0.42);
+    padding: 40px 20px;
+    font-size: 14px;
+    color: #000000;
+    border-top: 5px solid #00478f;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.footer-left {
+    max-width: 50%;
+    margin-left: 100px;
+}
+
+.logofoot{
+    width: 300px;
+    margin-bottom: 10px;
+    margin-left: -10px;
+}
+
+
+.footer-left p {
+    margin: 5px 0;
+    text-align: left;
+}
+
+.map {
+    flex: 1;
+    max-width: 50%;
+    margin-top: -200px;
+    margin-left: 550px; /* Adjust this as needed for spacing */
+}
+
+.map iframe {
+    width: 100%; /* Make the map responsive */
+    height: 250px; /* Adjust as needed */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-bottom p {
+    margin: 5px 0;
+}
+
+.footer-bottom a {
+    color: #00478f;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+
+/* Card Layout */
+
+h1{
+    margin-left: 30px;
+}
+
+.upload-history {
+    display: grid; /* Use grid display */
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 30px; /* Increased space between the cards */
+    margin-left: -50px;
+    justify-items: center; /* Center items within each grid cell */
+}
+
+/* Search Bar */
+#search-input {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    font-size: 1em;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px; /* Increased padding for a larger appearance */
+    width: 90%; /* 90% of the grid column width */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow for depth */
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.thumbnail {
+    width: 100%;  /* Maintain responsiveness, but the card will now be larger */
+    height: auto;  /* Maintain aspect ratio */
+    margin: 0 auto 15px;  /* Space below the thumbnail */
+}
+
+.card-body {
+    flex: 1;
+    text-align: center;
+}
+
+.card-body h4 {
+    font-size: 1.4em; /* Slightly larger font for the title */
+    margin-bottom: 12px;
+}
+
+.card-body p {
+    font-size: 1em; /* Larger font size for the description */
+    color: #555;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+}
+
+.embed-btn {
+    width: 100px;
+    height: 38px;
+    background-color: #00478f;
+    color: white;
+    border: none;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.embed-btn:hover {
+    background-color: #0056b3;  /* Darker shade for hover effect */
+}
+
+/* Modal CSS */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 8px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Flipbook Modal CSS */
+#flipbook-modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Darker transparency */
+}
+
+#flipbook-modal .modal-content {
+    background-color: #f5f5f5;
+    margin: 10% auto; /* Reduced margin for more screen coverage */
+    margin-top: 30px;
+    padding: 20px;
+    border: 2px solid #00478f; /* Dark blue border */
+    width: 50%; /* Wider modal for flipbook view */
+    max-width: 1000px; /* Maximum width for large screens */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+#flipbook-modal h2 {
+    color: #00478f; /* Dark blue title */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#flipbook-viewer {
+    width: 100%;
+    height: 350px; /* Large iframe to view flipbook comfortably */
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#flipbook-modal .close {
+    color: #444;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#flipbook-modal .close:hover,
+#flipbook-modal .close:focus {
+    color: #00478f; /* Blue on hover */
+    text-decoration: none;
+}
+
+
+#editFilenameInput {
+    margin-bottom: 20px;
+    width: 390px;
+    height: 35px;
+}
+
+#saveEditBtn, #confirmDeleteBtn {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#cancelEditBtn, #cancelDeleteBtn {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* Modal CSS for Embed Code */
+#embedModal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+}
+
+#embedModal .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 8px;
+}
+
+#embedCodeTextarea {
+    width: 95%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    resize: none;
+}
+
+#copyEmbedBtn {
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closeEmbedBtn {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#copyEmbedBtn:hover {
+    background-color: darkgreen;
+}
+
+#closeEmbedBtn:hover {
+    background-color: darkred;
+}
+
+
+/* Keeping Delete button styling as before */
+.view-btn {
+    background-color: #00478f;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.view-btn:hover {
+    background-color: #0254a5;
+}
+
+/* Styling the Edit button */
+.edit-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; /* Space between Edit and Delete */
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Keeping Delete button styling as before */
+.delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #ff1a1a;
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .card {
+        width: 45%; /* On smaller screens, show 2 cards per row */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        width: 90%; /* On mobile, show 1 card per row */
+    }
+}
+

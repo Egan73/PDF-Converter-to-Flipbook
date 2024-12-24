@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Flipbook</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/1018f427b5.js" crossorigin="anonymous"></script>
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+</head>
+<body>
+
+<header>
+    <nav>
+        <img class="Logo" src="Logo.png" alt="Logo">
+        <form>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="What are you looking for?">
+            <button type="submit">Search</button>
+        </form>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="history.html">History</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="hero">
+    <img class="background" src="background.jpg" alt="background"/>
+    <img class="logohero" src="logo1.png" alt="Hero Logo">
+    <div class="container">
+        <h1>Convert PDFs into flipbooks</h1>
+        <div class="upload-box">
+            <div id="drop-area" class="drag-drop-area">
+                <i class="fa-regular fa-file-pdf"></i>
+                <p>Drag & Drop</p>
+                <input type="file" id="pdf-upload" accept="application/pdf" style="display: none;">
+                <label for="pdf-upload" class="custom-upload-btn">Choose File</label>
+                <button id="upload-btn">Upload PDF</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="flipbook-container" style="display: none; width: 100%; text-align: center;">
+        <div style="display: flex; justify-content: center;">
+            <canvas id="pdf-render-left"></canvas>
+            <canvas id="pdf-render-right"></canvas>
+        </div>
+
+          <!-- Embed Form (initially hidden) -->
+          <div id="embed-form" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 20px; width: 400px; margin-left: auto; margin-right: auto;">
+            <h3>Get Embed Code</h3>
+            <textarea id="embed-code" style="width: 100%; height: 100px; margin-bottom: 10px;" readonly></textarea>
+            <button id="get-embed-code-btn" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer;">Copy Embed Code</button>
+        </div>
+    
+
+    <div style="margin-top: 20px;">
+        <button id="prev-page">Prev Page</button>
+        <button id="next-page">Next Page</button>
+    </div>
+
+        <div class="flipbook-buttons" style="margin-left: 1080px; margin-top: -650px;"  >
+            <div class="button-container">
+            <h1>Preview as</h1>
+                <button class="flipbook-btn" id="flipbook-btn"> Flipbook <p>Flips like a real book.</p></button>
+            </div>
+            <div class="button-container">
+                <button class="embed-btn1" id="embed-btn1">Embed  <p>Displays this flipbook on your own website.</p></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <div id="loading-spinner" style="display: none;">
+        <p>Loading your flipbook...</p>
+        <div class="spinner"></div>
+    </div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">
+            <img class="logofoot" src="logo1.png" alt="Footer Logo">
+            <p>Graha Pena Bogor</p>
+            <p>Jl. KH. R. Abdullah Bin Muhammad Nuh No. 30</p>
+            <p>Taman Yasmin, Bogor 16113</p><br>
+            <p><i class="fa-solid fa-phone"></i> 0251-7544001</p>
+            <p><i class="fa-solid fa-envelope"></i> redaksi [at] radar-bogor.com</p>
+        </div>
+    </div>
+    <div class="map">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1983.4381766348482!2d106.80672916935566!3d-6.601309097031682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5c6b393b953%3A0x5027a76e356d0!2sOffice%20of%20the%20Mayor%20of%20Bogor!5e0!3m2!1sen!2sid!4v1691614894664!5m2!1sen!2sid" 
+            width="400" 
+            height="250" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+    <div class="footer-bottom">
+        <p><a href="#">Tentang Kami</a> | <a href="#">Redaksi</a> | <a href="#">Info Iklan</a> | <a href="#">Karir</a> | <a href="#">Kontak</a> | <a href="#">Pedoman Media Siber</a> | <a href="#">Privacy</a></p><br>
+        <p>&copy;2024</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
